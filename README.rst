@@ -14,7 +14,7 @@ To build this driver:
 1. Modify the variables within hsdp_pcie_user_config.h to match your hardware 
    design and IP settings.
 
-   More information and example settings can be found at `Versal_CPM_PCIe_Debug <https://github.com/Xilinx/XilinxCEDStore/tree/master/ced/Xilinx/IPI/Versal_CPM_PCIe_Debug>`_
+   For an example design, navigate to the branch that matches your Vivado version at `Versal_CPM_PCIe_Debug <https://github.com/Xilinx/XilinxCEDStore/tree/2022.1/ced/Xilinx/IPI/Versal_CPM_PCIe_Debug>`_
 
 2. Compile the driver:
 
