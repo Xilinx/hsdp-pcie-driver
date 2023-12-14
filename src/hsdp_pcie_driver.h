@@ -1,6 +1,7 @@
 /*
  * Xilinx HSDP PCIe Driver
- * Copyright (C) 2021 Xilinx Corporation
+ * Copyright (C) 2021-2022 Xilinx, Inc.
+ * Copyright (C) 2022-2023 Advanced Micro Devices, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,5 +45,10 @@ int xocl_set_config_hsdp_mgmt(struct platform_device *pdev, const struct hsdp_pc
 int __init xocl_init_hsdp_user(void);
 void xocl_fini_hsdp_user(void);
 int xocl_set_config_hsdp_user(struct platform_device *pdev, const struct hsdp_pcie_config *config);
+
+int __init xocl_init_hsdp_mgmt_soft(void);
+void xocl_fini_hsdp_mgmt_soft(void);
+int xocl_set_config_hsdp_mgmt_soft(struct platform_device *pdev, const struct hsdp_pcie_config *config);
+
 
 #endif /* _HSDP_PCIE_DRIVER_H */

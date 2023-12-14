@@ -1,6 +1,7 @@
 /*
  * Xilinx HSDP PCIe Driver
- * Copyright (C) 2021 Xilinx Corporation
+ * Copyright (C) 2021-2022 Xilinx, Inc.
+ * Copyright (C) 2022-2023 Advanced Micro Devices, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +24,7 @@
 #define XOCL_HSDP_SIM       "hsdp_sim" SUBDEV_SUFFIX
 #define XOCL_HSDP_PUB       "hsdp_user" SUBDEV_SUFFIX
 #define XOCL_HSDP_PRI       "hsdp_mgmt" SUBDEV_SUFFIX
+#define XOCL_HSDP_SOFT      "hsdp_mgmt_soft" SUBDEV_SUFFIX
 
 #define XOCL_INVALID_MINOR -1
 

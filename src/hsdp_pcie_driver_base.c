@@ -1,6 +1,7 @@
 /*
  * Xilinx HSDP PCIe Driver
- * Copyright (C) 2021 Xilinx Corporation
+ * Copyright (C) 2021-2022 Xilinx, Inc.
+ * Copyright (C) 2022-2023 Advanced Micro Devices, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -92,7 +93,7 @@ static void xil_hsdp_cleanup(void)
     printk(KERN_INFO LOG_PREFIX "Cleaning up resources...\n");
 
     if (!IS_ERR(xrt_class)) {
-        class_unregister(xrt_class);
+        //class_unregister(xrt_class);
         class_destroy(xrt_class);
     }
 }
@@ -126,7 +127,12 @@ int mgmt_probe(struct pci_dev *pdev, const struct hsdp_pcie_config *config)
     bar_len = pci_resource_len(pdev, bar_index);
     map_len = bar_len;
 
-    pldev = platform_device_alloc(XOCL_HSDP_PRI, core->npldevs);
+    if (config->u.mgmt.type == MT_SOFT) {
+        printk(KERN_INFO LOG_PREFIX "Using Mgmt Soft...\n");
+        pldev = platform_device_alloc(XOCL_HSDP_SOFT, core->npldevs);
+    } else {
+        pldev = platform_device_alloc(XOCL_HSDP_PRI, core->npldevs);
+    }
     if (!pldev) {
         xocl_err(&pdev->dev, "failed to alloc device %s", XOCL_HSDP_PRI);
         status = -ENOMEM;
@@ -171,7 +177,11 @@ int mgmt_probe(struct pci_dev *pdev, const struct hsdp_pcie_config *config)
 
     pldev->dev.parent = &pdev->dev;
 
-    status = xocl_set_config_hsdp_mgmt(pldev, config);
+    if (config->u.mgmt.type == MT_SOFT) {
+        status = xocl_set_config_hsdp_mgmt_soft(pldev, config);
+    } else {
+        status = xocl_set_config_hsdp_mgmt(pldev, config);
+    }
     if (status)
         return status;
 
@@ -380,6 +390,7 @@ static int __init xil_hsdp_init(void)
     }
 
     xocl_init_hsdp_mgmt();
+    xocl_init_hsdp_mgmt_soft();
     xocl_init_hsdp_user();
 
     return pci_register_driver(&xil_hsdp_pci_driver);
@@ -391,6 +402,7 @@ static void __exit xil_hsdp_exit(void)
     pci_unregister_driver(&xil_hsdp_pci_driver);
 
     xocl_fini_hsdp_mgmt();
+    xocl_fini_hsdp_mgmt_soft();
     xocl_fini_hsdp_user();
 
     xil_hsdp_cleanup();

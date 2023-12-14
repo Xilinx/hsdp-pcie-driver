@@ -1,6 +1,7 @@
 /*
  * Xilinx HSDP PCIe Driver
- * Copyright (C) 2021 Xilinx Corporation
+ * Copyright (C) 2021-2022 Xilinx, Inc.
+ * Copyright (C) 2022-2023 Advanced Micro Devices, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -214,7 +215,7 @@ static int axi_mmap(struct file *file, struct vm_area_struct *vma)
 
 static ssize_t axi_read(struct file *file, char *buf, size_t size, loff_t *addr)
 {
-    uint32_t tmp_buf[256];
+    uint32_t tmp_buf[128];
     struct xocl_axi *axi;
     uint64_t offset = 0;
     size_t nread = 0;
@@ -260,7 +261,7 @@ static ssize_t axi_read(struct file *file, char *buf, size_t size, loff_t *addr)
 
 static ssize_t axi_write(struct file *file, const char *buf, size_t size, loff_t *addr)
 {
-    uint32_t tmp_buf[256];
+    uint32_t tmp_buf[128];
     struct xocl_axi *axi;
     uint64_t offset = 0;
     size_t nread = 0;

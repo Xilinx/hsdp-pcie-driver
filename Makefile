@@ -5,7 +5,7 @@ SOURCE = src
 obj-m += $(MODULENAME).o
 EXTRA_CFLAGS := -DLOG_PREFIX=\"$(MODULENAME):\ \" -I$(SOURCE)
 
-$(MODULENAME)-objs := $(SOURCE)/hsdp_pcie_driver_base.o $(SOURCE)/hsdp_mgmt_pcie_driver.o $(SOURCE)/hsdp_user_pcie_driver.o
+$(MODULENAME)-objs := $(SOURCE)/hsdp_pcie_driver_base.o $(SOURCE)/hsdp_mgmt_pcie_driver.o $(SOURCE)/hsdp_user_pcie_driver.o $(SOURCE)/hsdp_mgmt_soft_pcie_driver.o
 
 install: module
 	mkdir -p $(DRIVER_LOCATION)

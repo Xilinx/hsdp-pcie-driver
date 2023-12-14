@@ -1,6 +1,7 @@
 /*
  * Xilinx HSDP PCIe Driver
- * Copyright (C) 2021 Xilinx Corporation
+ * Copyright (C) 2021-2022 Xilinx, Inc.
+ * Copyright (C) 2022-2023 Advanced Micro Devices, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,8 @@
 enum mgmt_type {
     MT_NULL,
     MT_CPM4,
-    MT_CPM5
+    MT_CPM5,
+    MT_SOFT
 };
 
 struct mgmt_bar_space_info {
@@ -72,6 +74,7 @@ struct hsdp_pcie_config {
 //   - AI Edge = VE1752
 //   - Prime   = VM1302-VM1802
 #define CPM4
+//#define CPM5
 
 /*
  *  Modify the macros and structure below with PCIe customizations for the driver, if desired.
@@ -108,7 +111,7 @@ static const struct hsdp_pcie_config user_configs[] = {
             .bridge_ctl_bar_offset = 0x0,
             // CED : AXI BAR 1 from 0x700000000 (4 GB aperture)
             .type                  = MT_CPM4,
-            .bridge_bar_index      = 1,
+            .bridge_bar_index      = 0,
             .bridge_bar_offset     = 0x700000000,
             .bridge_bar_size       = 0x100000000
         },
@@ -130,7 +133,7 @@ static const struct hsdp_pcie_config user_configs[] = {
             }
         },
     },
-#else
+#elif defined(CPM5)
     /* Defaults for CPM5 CED */
     {
         .device_type = DT_HSDP_MGMT,
@@ -176,6 +179,20 @@ static const struct hsdp_pcie_config user_configs[] = {
                 },
                 {0}
             }
+        },
+    },
+#else
+    {
+        .device_type = DT_HSDP_MGMT,
+        .u.mgmt = {
+            .type                       = MT_SOFT,
+            .dma_bar_index              = 0x2,
+            .dma_bar_offset             = 0x10000,
+            .bridge_bar_offset          = 0x0,
+            .bridge_bar_size            = 0x8000000000000000,
+            .bridge_ctl_bar_index       = 0x2,
+            .bridge_ctl_bar_offset      = 0x0,
+            0
         },
     },
 #endif
